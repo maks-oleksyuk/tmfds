@@ -8,7 +8,6 @@
   "rules": {
     "alpha-value-notation": "number",
     "at-rule-no-vendor-prefix": null,
-    "scss/at-rule-no-vendor-prefix": true,
     "color-function-notation": "legacy",
     "comment-empty-line-before": null,
     "custom-property-pattern": "^[a-z][-_a-z0-9IE]*$",
