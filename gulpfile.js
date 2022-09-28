@@ -7,7 +7,8 @@ import browserSync from 'browser-sync';
 import merge from 'merge-stream';
 import autoPrefixer from 'gulp-autoprefixer';
 import gcmq from 'gulp-group-css-media-queries';
-import gulpStylelint from 'gulp-stylelint';
+import gulpStylelint from '@ronilaukkarinen/gulp-stylelint';
+import sassGlob from 'gulp-sass-glob'
 
 // import cleanCss from 'gulp-clean-css'
 const sass = gulpSass(dartSass);
@@ -72,15 +73,28 @@ export const watch = () => gulp.watch([config.styles.scss, config.styles.less], 
 
 export const styles = () => {
   let s = gulp.src(config.styles.scss)
-    .pipe(sass())
+    .pipe(sass({
+      includePaths: ['./node_modules'],
+    }))
+    .pipe(sassGlob())
     .pipe(autoPrefixer({ overrideBrowserslist: ["last 5 version"], }))
 
   let l = gulp.src(config.styles.less)
-    .pipe(less())
+    .pipe(less({
+      includePaths: ['./node_modules'],
+    }))
+    .pipe(sassGlob())
     .pipe(autoPrefixer({ overrideBrowserslist: ["last 5 version"], }))
 
   return merge(s, l)
     .pipe(gcmq())
+    .pipe(gulpStylelint({
+      failAfterError: false,
+      reporters: [
+        { formatter: 'string', console: true }
+      ]
+      // fix: true,
+    }))
     .pipe(gulp.dest(config.styles.dest))
     .pipe(browserSync.stream());
 }
@@ -88,4 +102,3 @@ export const styles = () => {
 let build2 = gulp.series(clean, styles);
 
 export const build = gulp.parallel(build2, watch, server)
-
