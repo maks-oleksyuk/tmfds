@@ -29,6 +29,7 @@ const config = {
   },
   media: media,
   styles: {
+    root: src,
     scss: `${src}/**/*.scss`,
     less: `${src}/**/*.less`,
     dest: `${dist}/css/`
@@ -73,28 +74,33 @@ export const watch = () => gulp.watch([config.styles.scss, config.styles.less], 
 
 export const styles = () => {
   let s = gulp.src(config.styles.scss)
-    .pipe(sass({
-      includePaths: ['./node_modules'],
-    }))
-    .pipe(sassGlob())
-    .pipe(autoPrefixer({ overrideBrowserslist: ["last 5 version"], }))
-
-  let l = gulp.src(config.styles.less)
-    .pipe(less({
-      includePaths: ['./node_modules'],
-    }))
-    .pipe(sassGlob())
-    .pipe(autoPrefixer({ overrideBrowserslist: ["last 5 version"], }))
-
-  return merge(s, l)
-    .pipe(gcmq())
     .pipe(gulpStylelint({
       failAfterError: false,
+      fix: true,
       reporters: [
         { formatter: 'string', console: true }
       ]
-      // fix: true,
     }))
+    .pipe(gulp.dest(config.styles.root))
+    .pipe(sassGlob())
+    .pipe(sass({ includePaths: ['./node_modules'] }))
+    .pipe(autoPrefixer())
+
+  let l = gulp.src(config.styles.less)
+    .pipe(gulpStylelint({
+      failAfterError: false,
+      fix: true,
+      reporters: [
+        { formatter: 'string', console: true }
+      ]
+    }))
+    .pipe(gulp.dest(config.styles.root))
+    .pipe(less({ includePaths: ['./node_modules'] }))
+    .pipe(sassGlob())
+    .pipe(autoPrefixer())
+
+  return merge(s, l)
+    .pipe(gcmq())
     .pipe(gulp.dest(config.styles.dest))
     .pipe(browserSync.stream());
 }
