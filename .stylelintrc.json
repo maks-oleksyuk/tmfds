@@ -31,6 +31,7 @@
       ]
     }],
     "media-feature-name-no-vendor-prefix": null,
+    "no-missing-end-of-source-newline": true,
     "number-leading-zero": "always",
     "number-max-precision": 5,
     "order/order": [
@@ -462,7 +463,7 @@
     ],
     "property-no-unknown": null,
     "property-no-vendor-prefix": null,
-    "rule-empty-line-before": null,
+    "rule-empty-line-before": "always",
     "selector-attribute-quotes": null,
     "selector-class-pattern": null,
     "selector-id-pattern": "^[a-z][-_a-z0-9]*$",

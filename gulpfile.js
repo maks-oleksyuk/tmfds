@@ -1,21 +1,21 @@
 import gulp from 'gulp';
+import less from 'gulp-less';
+import gcmq from 'gulp-group-css-media-queries';
+import merge from 'merge-stream';
 import dartSass from 'sass';
 import gulpSass from 'gulp-sass';
-import less from 'gulp-less';
-import { deleteAsync } from 'del';
-import browserSync from 'browser-sync';
-import merge from 'merge-stream';
-import autoPrefixer from 'gulp-autoprefixer';
-import gcmq from 'gulp-group-css-media-queries';
-import gulpStylelint from '@ronilaukkarinen/gulp-stylelint';
 import sassGlob from 'gulp-sass-glob'
-
-// import cleanCss from 'gulp-clean-css'
-const sass = gulpSass(dartSass);
+import cleanCSS from 'gulp-clean-css';
+import browserSync from 'browser-sync';
+import autoPrefixer from 'gulp-autoprefixer';
+import {deleteAsync} from 'del';
+import gulpStylelint from '@ronilaukkarinen/gulp-stylelint';
 
 /**
- * * * * * * * * * * * * Config * * * * * * * * * * * *
+ * * * * * * * * * * * * * * Config * * * * * * * * * * * * * *
  */
+const sass = gulpSass(dartSass);
+
 const src = './styles';
 const dist = './dist';
 const media = './media'
@@ -42,7 +42,7 @@ const config = {
 config.setEnv();
 
 /**
- * * * * * * * * * * * * Tasks * * * * * * * * * * * *
+ * * * * * * * * * * * * * * Tasks * * * * * * * * * * * * * *
  */
 
 // Clean destination directory
@@ -83,7 +83,7 @@ export const styles = () => {
     }))
     .pipe(gulp.dest(config.styles.root))
     .pipe(sassGlob())
-    .pipe(sass({ includePaths: ['./node_modules'] }))
+    .pipe(sass({includePaths: ['./node_modules']}))
     .pipe(autoPrefixer())
 
   let l = gulp.src(config.styles.less)
@@ -95,7 +95,7 @@ export const styles = () => {
       ]
     }))
     .pipe(gulp.dest(config.styles.root))
-    .pipe(less({ includePaths: ['./node_modules'] }))
+    .pipe(less({includePaths: ['./node_modules']}))
     .pipe(sassGlob())
     .pipe(autoPrefixer())
 
