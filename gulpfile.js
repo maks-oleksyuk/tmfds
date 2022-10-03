@@ -95,8 +95,8 @@ export const styles = () => {
       ]
     }))
     .pipe(gulp.dest(config.styles.root))
-    .pipe(less({includePaths: ['./node_modules']}))
     .pipe(sassGlob())
+    .pipe(less({includePaths: ['./node_modules']}))
     .pipe(autoPrefixer())
 
   return merge(s, l)
@@ -104,6 +104,22 @@ export const styles = () => {
     .pipe(gulp.dest(config.styles.dest))
     .pipe(browserSync.stream());
 }
+
+export const scss = () => {
+  return gulp.src('./scss/**/*.scss')
+    .pipe(sass({includePaths: ['./node_modules']}))
+    .pipe(gulpStylelint({
+      failAfterError: false,
+      fix: true,
+      reporters: [
+        { formatter: 'string', console: true }
+      ]
+    }))
+    .pipe(autoPrefixer())
+    .pipe(gcmq())
+    .pipe(gulp.dest('./css'));
+}
+
 
 let build2 = gulp.series(clean, styles);
 

@@ -9,13 +9,19 @@
   "rules": {
     "alpha-value-notation": "number",
     "at-rule-no-unknown": null,
-    "scss/at-rule-no-unknown": true,
+    "scss/at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": ["!default"]
+      }
+    ],
     "at-rule-no-vendor-prefix": null,
     "color-function-notation": "legacy",
     "comment-empty-line-before": null,
     "custom-property-pattern": "^[a-z][-_a-z0-9IE]*$",
     "custom-property-no-missing-var-function": true,
     "declaration-block-no-redundant-longhand-properties": null,
+    "declaration-empty-line-before": "never",
     "function-linear-gradient-no-nonstandard-direction": null,
     "function-url-quotes": null,
     "function-whitespace-after": null,
@@ -33,7 +39,9 @@
     "media-feature-name-no-vendor-prefix": null,
     "no-missing-end-of-source-newline": true,
     "number-leading-zero": "always",
-    "number-max-precision": 5,
+    "number-max-precision": [5, {
+      "ignore": "%"
+    }],
     "order/order": [
       "custom-properties",
       "dollar-variables",
@@ -468,6 +476,7 @@
     "selector-class-pattern": null,
     "selector-id-pattern": "^[a-z][-_a-z0-9]*$",
     "selector-no-vendor-prefix": null,
+    "selector-not-notation": "complex",
     "selector-pseudo-element-colon-notation": null,
     "shorthand-property-no-redundant-values": null,
     "string-quotes": "double",
@@ -476,7 +485,8 @@
       "camelCaseSvgKeywords": true,
       "ignoreProperties": [
         "--font-family",
-        "font-family"
+        "font-family",
+        "var"
       ]
     }],
     "value-no-vendor-prefix": null
